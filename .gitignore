@@ -14,6 +14,9 @@ venv/
 # Local vector DB artifacts
 emacs_db/
 
+# Downloaded source documents (not committed)
+data/sources/
+
 # Streamlit caches
 .streamlit/
 

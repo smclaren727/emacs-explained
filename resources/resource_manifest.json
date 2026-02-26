@@ -1,14 +1,8 @@
 [
   {
     "id": "emacs-manual",
-    "path": "gnu-emacs-manual.pdf",
+    "path": "data/sources/gnu-emacs-manual.pdf",
     "type": "pdf",
     "description": "GNU Emacs manual"
-  },
-  {
-    "id": "using-emacs-guide",
-    "path": "use-gnu-emacs.pdf",
-    "type": "pdf",
-    "description": "Using GNU Emacs reference guide"
   }
 ]

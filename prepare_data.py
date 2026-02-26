@@ -38,7 +38,10 @@ def load_resource(resource: dict) -> list:
 
     full_path = (BASE_DIR / raw_path).resolve()
     if not full_path.exists():
-        raise FileNotFoundError(f"Resource path not found: {raw_path}")
+        raise FileNotFoundError(
+            f"Resource path not found: {raw_path}. "
+            "If this is a cataloged source, run `python3 sync_sources.py` first."
+        )
 
     if resource_type == "pdf" or full_path.suffix.lower() == ".pdf":
         loader = PyPDFLoader(str(full_path))
