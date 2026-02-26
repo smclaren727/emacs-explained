@@ -109,16 +109,40 @@ curl -s http://127.0.0.1:8000/health
 ```
 
 ```bash
-curl -s -X POST http://127.0.0.1:8000/ask \\
-  -H \"Content-Type: application/json\" \\
-  -d '{\"question\":\"How do I switch buffers?\",\"skill_level\":\"beginner\"}'
+curl -s -X POST http://127.0.0.1:8000/ask \
+  -H "Content-Type: application/json" \
+  -d '{"question":"How do I switch buffers?","skill_level":"beginner"}'
 ```
 
 ```bash
-curl -s -X POST http://127.0.0.1:8000/explain-region \\
-  -H \"Content-Type: application/json\" \\
-  -d '{\"code\":\"(setq inhibit-startup-message t)\",\"language\":\"elisp\",\"skill_level\":\"beginner\"}'
+curl -s -X POST http://127.0.0.1:8000/explain-region \
+  -H "Content-Type: application/json" \
+  -d '{"code":"(setq inhibit-startup-message t)","language":"elisp","skill_level":"beginner"}'
 ```
+
+## Emacs Lisp client (MVP)
+
+Load the package files:
+
+```elisp
+(add-to-list 'load-path "/path/to/emacs-explained/elisp")
+(require 'emacs-explained)
+```
+
+Optional defaults:
+
+```elisp
+(setq emacs-explained-api-url "http://127.0.0.1:8000")
+(setq emacs-explained-skill-level "beginner")
+(setq emacs-explained-auto-cite-sources t)
+```
+
+Commands:
+
+- `M-x emacs-explained-ask`
+- `M-x emacs-explained-explain-region`
+- `M-x emacs-explained-explain-defun`
+- `M-x emacs-explained-explain-symbol-at-point`
 
 ## Model provider configuration
 

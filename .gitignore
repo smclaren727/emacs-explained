@@ -5,6 +5,7 @@
 __pycache__/
 *.py[cod]
 *.pyo
+*.elc
 
 # Virtual environments
 emacs-ai-env/
