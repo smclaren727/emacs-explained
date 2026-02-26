@@ -29,3 +29,4 @@ data/sources/
 
 # Local session memory (assistant/user notes, not for distribution)
 MEMORY.md
+IMPLEMENTATION_CHECKLIST.md
