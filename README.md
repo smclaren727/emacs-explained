@@ -22,13 +22,26 @@ A local RAG-based assistant for learning Emacs in plain language.
 
 ## First-time setup
 
-1. Download allowed/default sources and generate the manifest:
+1. Create and activate a virtual environment:
+
+```bash
+python3 -m venv .venv
+source .venv/bin/activate
+```
+
+2. Install Python dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+3. Download allowed/default sources and generate the manifest:
 
 ```bash
 python3 sync_sources.py
 ```
 
-2. Build/rebuild the vector index:
+4. Build/rebuild the vector index:
 
 ```bash
 python3 prepare_data.py
