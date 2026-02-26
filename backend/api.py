@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from uuid import uuid4
 
 from fastapi import FastAPI
 from pydantic import BaseModel, Field
@@ -44,6 +45,8 @@ def config() -> Dict[str, Any]:
         "ollama_base_url": cfg.ollama_base_url,
         "local_small_base_url": cfg.local_small_base_url,
         "local_model_file": cfg.local_model_file,
+        "enable_local_logs": cfg.enable_local_logs,
+        "local_log_path": cfg.local_log_path,
         "has_openai_api_key": bool(cfg.openai_api_key),
         "openai_base_url": cfg.openai_base_url,
     }
@@ -51,16 +54,23 @@ def config() -> Dict[str, Any]:
 
 @app.post("/ask")
 def ask(payload: AskRequest) -> Dict[str, Any]:
-    result = ask_emacs(payload.question, skill_level=payload.skill_level)
+    request_id = str(uuid4())
+    result = ask_emacs(
+        payload.question,
+        skill_level=payload.skill_level,
+        request_id=request_id,
+    )
     return result
 
 
 @app.post("/explain-region")
 def explain(payload: ExplainRegionRequest) -> Dict[str, Any]:
+    request_id = str(uuid4())
     result = explain_region(
         code=payload.code,
         language=payload.language,
         context=payload.context,
         skill_level=payload.skill_level,
+        request_id=request_id,
     )
     return result

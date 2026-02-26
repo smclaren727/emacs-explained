@@ -1,55 +1,13 @@
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import Chroma
 
 from backend.config import AppConfig
 from backend.health import check_local_small_prereqs
+from backend.prompts import ask_prompt_template, explain_region_prompt_template
 from backend.providers.factory import get_chat_provider
-
-ASK_PROMPT_TEMPLATE = """
-You are an Emacs learning assistant for non-technical users.
-
-Rules:
-- Start with a plain-language explanation first.
-- Avoid jargon unless needed, and define it when used.
-- Give practical steps the user can try in Emacs.
-- If the question is advanced, still explain what problem the feature solves.
-- If the answer is uncertain, say what is missing.
-
-User skill level: {skill_level}
-
-Context:
-{context}
-
-Question:
-{question}
-
-Helpful answer:
-""".strip()
-
-EXPLAIN_REGION_PROMPT_TEMPLATE = """
-You are an Emacs Lisp explainer for non-technical users.
-
-Rules:
-- Explain what the code does in plain language first.
-- Break down behavior line-by-line or block-by-block when helpful.
-- Define any Emacs or Lisp jargon.
-- Mention practical impact: what changes for the user.
-- If relevant, include safe ways to test the code in Emacs.
-
-User skill level: {skill_level}
-Language: {language}
-Extra context from user: {extra_context}
-
-Reference docs:
-{docs_context}
-
-Code to explain:
-{code}
-
-Helpful explanation:
-""".strip()
+from backend.telemetry import log_event
 
 
 def _build_retriever(config: AppConfig):
@@ -96,24 +54,63 @@ def _prepare_provider(config: AppConfig):
     return get_chat_provider(config)
 
 
-def ask_emacs(query: str, skill_level: str = "beginner") -> Dict[str, object]:
+def _log_response(
+    *,
+    config: AppConfig,
+    request_id: Optional[str],
+    interaction: str,
+    provider_name: str,
+    model_name: str,
+    skill_level: str,
+    docs_count: int,
+) -> None:
+    log_event(
+        {
+            "event": "completion",
+            "request_id": request_id,
+            "interaction": interaction,
+            "provider": provider_name,
+            "model": model_name,
+            "skill_level": skill_level,
+            "retrieval_chunks": docs_count,
+        },
+        config,
+    )
+
+
+def ask_emacs(
+    query: str,
+    skill_level: str = "beginner",
+    request_id: Optional[str] = None,
+) -> Dict[str, object]:
     config = AppConfig.from_env()
     provider = _prepare_provider(config)
 
     docs = _retrieve_docs(query, config)
     context = _format_context(docs)
-    prompt = ASK_PROMPT_TEMPLATE.format(
+    prompt = ask_prompt_template().format(
         question=query,
         skill_level=skill_level,
         context=context,
     )
 
     answer = provider.generate(prompt)
+    _log_response(
+        config=config,
+        request_id=request_id,
+        interaction="ask",
+        provider_name=provider.name,
+        model_name=provider.model,
+        skill_level=skill_level,
+        docs_count=len(docs),
+    )
+
     return {
         "answer": answer,
         "sources": _extract_sources(docs),
         "provider": provider.name,
         "model": provider.model,
+        "request_id": request_id,
     }
 
 
@@ -122,6 +119,7 @@ def explain_region(
     language: str = "elisp",
     context: str = "",
     skill_level: str = "beginner",
+    request_id: Optional[str] = None,
 ) -> Dict[str, object]:
     config = AppConfig.from_env()
     provider = _prepare_provider(config)
@@ -129,7 +127,7 @@ def explain_region(
     retrieval_query = f"{language} {context} {code[:1200]}"
     docs = _retrieve_docs(retrieval_query, config)
 
-    prompt = EXPLAIN_REGION_PROMPT_TEMPLATE.format(
+    prompt = explain_region_prompt_template().format(
         skill_level=skill_level,
         language=language,
         extra_context=context or "(none)",
@@ -138,9 +136,20 @@ def explain_region(
     )
 
     answer = provider.generate(prompt)
+    _log_response(
+        config=config,
+        request_id=request_id,
+        interaction="explain_region",
+        provider_name=provider.name,
+        model_name=provider.model,
+        skill_level=skill_level,
+        docs_count=len(docs),
+    )
+
     return {
         "answer": answer,
         "sources": _extract_sources(docs),
         "provider": provider.name,
         "model": provider.model,
+        "request_id": request_id,
     }

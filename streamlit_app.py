@@ -28,6 +28,8 @@ if st.button("Get Answer", type="primary"):
         st.write(result["answer"])
 
         st.caption(f"Provider: {result.get('provider', 'unknown')} | Model: {result.get('model', 'unknown')}")
+        if result.get("request_id"):
+            st.caption(f"Request ID: {result['request_id']}")
 
         if result["sources"]:
             st.markdown("### Sources")

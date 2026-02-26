@@ -18,6 +18,7 @@ A local RAG-based assistant for learning Emacs in plain language.
 - `backend/api.py`: FastAPI layer for Emacs/editor clients.
 - `emacs_assistant.py`: runs retrieval + LLM answer generation.
 - `streamlit_app.py`: simple UI for asking questions.
+- `prompts/`: prompt templates used by the backend.
 - `resources/source_catalog.json`: source URLs + license metadata.
 - `resources/model_catalog.json`: local model URLs + metadata.
 - `resources/resource_manifest.json`: list of source files to index.
@@ -155,6 +156,8 @@ The backend supports provider selection via environment variables.
 - `RETRIEVAL_K`: number of retrieved chunks (default `4`).
 - `LOCAL_SMALL_BASE_URL`: OpenAI-compatible local runtime URL (default `http://127.0.0.1:8080/v1`).
 - `LOCAL_MODEL_FILE`: expected local model file path (default `data/models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf`).
+- `ENABLE_LOCAL_LOGS`: `true|false` (default `false`) to write local JSONL telemetry.
+- `LOCAL_LOG_PATH`: local log file path (default `data/logs/requests.jsonl`).
 
 Examples:
 
@@ -176,5 +179,7 @@ streamlit run streamlit_app.py
 
 - Default embeddings use `all-MiniLM-L6-v2`.
 - `local_small` expects a running OpenAI-compatible local inference server (for example `llama.cpp` server mode).
+- API responses include a `request_id` for tracing.
+- Prompt behavior is configurable through `prompts/ask.txt` and `prompts/explain_region.txt`.
 - Make sure your local environment has required packages installed.
 - Review `SOURCES.md` before redistributing source docs.

@@ -12,6 +12,8 @@ class AppConfig:
     ollama_base_url: str = "http://localhost:11434"
     local_small_base_url: str = "http://127.0.0.1:8080/v1"
     local_model_file: str = "data/models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
+    enable_local_logs: bool = False
+    local_log_path: str = "data/logs/requests.jsonl"
     openai_api_key: str = ""
     openai_base_url: str = "https://api.openai.com/v1"
 
@@ -30,6 +32,9 @@ class AppConfig:
             local_model_file=os.getenv(
                 "LOCAL_MODEL_FILE", "data/models/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf"
             ).strip(),
+            enable_local_logs=os.getenv("ENABLE_LOCAL_LOGS", "false").strip().lower()
+            in ("1", "true", "yes", "on"),
+            local_log_path=os.getenv("LOCAL_LOG_PATH", "data/logs/requests.jsonl").strip(),
             openai_api_key=os.getenv("OPENAI_API_KEY", "").strip(),
             openai_base_url=os.getenv("OPENAI_BASE_URL", "https://api.openai.com/v1").strip(),
         )
