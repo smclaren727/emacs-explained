@@ -1,5 +1,10 @@
 ;;; emacs-explained-http.el --- HTTP helpers for Emacs Explained -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; Internal HTTP helpers for Emacs Explained.
+
+;;; Code:
+
 (require 'json)
 (require 'url)
 

@@ -1,11 +1,17 @@
 ;;; emacs-explained-ui.el --- UI helpers for Emacs Explained -*- lexical-binding: t; -*-
 
+;;; Commentary:
+;; Result buffer helpers for Emacs Explained responses.
+
+;;; Code:
+
 (require 'subr-x)
 
 (defvar emacs-explained-auto-cite-sources)
 
 (defconst emacs-explained-ui-buffer-name "*Emacs Explained*")
 
+;;;###autoload
 (define-derived-mode emacs-explained-ui-mode special-mode "Emacs-Explained"
   "Major mode for Emacs Explained responses.")
 

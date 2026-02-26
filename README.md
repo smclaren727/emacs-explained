@@ -139,6 +139,8 @@ Load the package files:
 (require 'emacs-explained)
 ```
 
+`elisp/emacs-explained-pkg.el` is included for package metadata/autoload tooling.
+
 Optional defaults:
 
 ```elisp
