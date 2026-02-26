@@ -27,6 +27,8 @@ if st.button("Get Answer", type="primary"):
         st.markdown("### Answer")
         st.write(result["answer"])
 
+        st.caption(f"Provider: {result.get('provider', 'unknown')} | Model: {result.get('model', 'unknown')}")
+
         if result["sources"]:
             st.markdown("### Sources")
             for src in result["sources"]:

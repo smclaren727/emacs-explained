@@ -86,6 +86,26 @@ Source sync flags:
 streamlit run streamlit_app.py
 ```
 
+## Model provider configuration
+
+The backend now supports provider selection via environment variables.
+
+- `MODEL_PROVIDER`: `ollama` (default), `openai`, or `local_small` (placeholder for upcoming local runtime).
+- `CHAT_MODEL`: chat model name (default `deepseek-r1`).
+- `EMBEDDING_MODEL`: embedding model name (default `all-MiniLM-L6-v2`).
+- `VECTOR_DB_DIR`: vector database path (default `emacs_db`).
+- `RETRIEVAL_K`: number of retrieved chunks (default `4`).
+
+Examples:
+
+```bash
+MODEL_PROVIDER=ollama CHAT_MODEL=deepseek-r1 streamlit run streamlit_app.py
+```
+
+```bash
+MODEL_PROVIDER=openai CHAT_MODEL=gpt-4o-mini OPENAI_API_KEY=... streamlit run streamlit_app.py
+```
+
 ## Notes
 
 - This app uses Ollama model `deepseek-r1` and embedding model `all-MiniLM-L6-v2`.
