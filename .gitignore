@@ -26,3 +26,6 @@ data/sources/
 
 # Environment files
 .env
+
+# Local session memory (assistant/user notes, not for distribution)
+MEMORY.md
