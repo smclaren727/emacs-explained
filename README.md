@@ -15,6 +15,7 @@ A local RAG-based assistant for learning Emacs in plain language.
 - `sync_sources.py`: downloads cataloged sources and writes the resource manifest.
 - `sync_models.py`: downloads local model files from a model catalog.
 - `bootstrap.py`: one-command setup for sources, models, and indexing.
+- `backend/api.py`: FastAPI layer for Emacs/editor clients.
 - `emacs_assistant.py`: runs retrieval + LLM answer generation.
 - `streamlit_app.py`: simple UI for asking questions.
 - `resources/source_catalog.json`: source URLs + license metadata.
@@ -93,6 +94,30 @@ Model sync flags (`sync_models.py`):
 
 ```bash
 streamlit run streamlit_app.py
+```
+
+## Run the API (for Emacs integration)
+
+```bash
+uvicorn backend.api:app --host 127.0.0.1 --port 8000
+```
+
+Example API calls:
+
+```bash
+curl -s http://127.0.0.1:8000/health
+```
+
+```bash
+curl -s -X POST http://127.0.0.1:8000/ask \\
+  -H \"Content-Type: application/json\" \\
+  -d '{\"question\":\"How do I switch buffers?\",\"skill_level\":\"beginner\"}'
+```
+
+```bash
+curl -s -X POST http://127.0.0.1:8000/explain-region \\
+  -H \"Content-Type: application/json\" \\
+  -d '{\"code\":\"(setq inhibit-startup-message t)\",\"language\":\"elisp\",\"skill_level\":\"beginner\"}'
 ```
 
 ## Model provider configuration
