@@ -1,0 +1,25 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+
+# Virtual environments
+emacs-ai-env/
+.venv/
+venv/
+
+# Local vector DB artifacts
+emacs_db/
+
+# Streamlit caches
+.streamlit/
+
+# Local caches
+.pytest_cache/
+.mypy_cache/
+
+# Environment files
+.env
