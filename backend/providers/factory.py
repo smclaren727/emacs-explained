@@ -17,7 +17,10 @@ def get_chat_provider(config: AppConfig) -> ChatProvider:
         )
 
     if config.model_provider == "local_small":
-        return LocalSmallChatProvider(model=config.chat_model)
+        return LocalSmallChatProvider(
+            model=config.chat_model,
+            base_url=config.local_small_base_url,
+        )
 
     raise ValueError(
         "Unsupported MODEL_PROVIDER. "

@@ -16,6 +16,7 @@ emacs_db/
 
 # Downloaded source documents (not committed)
 data/sources/
+data/models/
 
 # Streamlit caches
 .streamlit/

@@ -1,0 +1,17 @@
+[
+  {
+    "id": "tinyllama-instruct-q4",
+    "filename": "tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+    "url": "https://huggingface.co/TheBloke/TinyLlama-1.1B-Chat-v1.0-GGUF/resolve/main/tinyllama-1.1b-chat-v1.0.Q4_K_M.gguf",
+    "sha256": "",
+    "description": "TinyLlama 1.1B chat GGUF quantized model",
+    "provider": "local_small",
+    "enabled_by_default": true,
+    "context_length": 4096,
+    "recommended": {
+      "temperature": 0.2,
+      "top_p": 0.9,
+      "max_tokens": 600
+    }
+  }
+]

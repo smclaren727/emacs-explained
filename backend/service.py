@@ -4,6 +4,7 @@ from langchain.embeddings import HuggingFaceEmbeddings
 from langchain.vectorstores import Chroma
 
 from backend.config import AppConfig
+from backend.health import check_local_small_prereqs
 from backend.providers.factory import get_chat_provider
 
 PROMPT_TEMPLATE = """
@@ -51,6 +52,8 @@ def _extract_sources(docs: List) -> List[str]:
 
 def ask_emacs(query: str, skill_level: str = "beginner") -> Dict[str, object]:
     config = AppConfig.from_env()
+    if config.model_provider == "local_small":
+        check_local_small_prereqs(config)
 
     embeddings = HuggingFaceEmbeddings(model_name=config.embedding_model)
     vectorstore = Chroma(
