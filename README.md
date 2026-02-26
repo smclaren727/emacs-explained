@@ -97,6 +97,15 @@ Model sync flags (`sync_models.py`):
 streamlit run streamlit_app.py
 ```
 
+## Developer commands
+
+```bash
+make bootstrap
+make run-api
+make run-ui
+make test
+```
+
 ## Run the API (for Emacs integration)
 
 ```bash
