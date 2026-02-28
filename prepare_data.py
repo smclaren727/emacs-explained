@@ -3,10 +3,10 @@ import json
 import shutil
 from pathlib import Path
 
-from langchain.document_loaders import PyPDFLoader, TextLoader
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.text_splitter import RecursiveCharacterTextSplitter
-from langchain.vectorstores import Chroma
+from langchain_community.document_loaders import PyPDFLoader, TextLoader
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 BASE_DIR = Path(__file__).parent
 DEFAULT_MANIFEST = BASE_DIR / "resources" / "resource_manifest.json"

@@ -1,6 +1,6 @@
 from typing import Optional
 
-from langchain.llms import Ollama
+from langchain_community.llms import Ollama
 
 from backend.providers.base import ChatProvider
 

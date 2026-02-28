@@ -1,7 +1,7 @@
 from typing import Dict, List, Optional
 
-from langchain.embeddings import HuggingFaceEmbeddings
-from langchain.vectorstores import Chroma
+from langchain_community.embeddings import HuggingFaceEmbeddings
+from langchain_community.vectorstores import Chroma
 
 from backend.config import AppConfig
 from backend.health import check_local_small_prereqs
